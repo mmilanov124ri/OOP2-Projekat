@@ -1,31 +1,36 @@
 package Modeli;
 
 public class Aerodrom {
-    private String kod;
+    private final String kod;
     private String ime;
     private int x;
     private int y;
 
     public Aerodrom(String kod, String ime, int x, int y) {
+        if(kod == null || !kod.matches("[A-Z]{3}")) {
+            throw new IllegalArgumentException("Kod aerodroma nije validan");
+        }
+
+        if(ime == null || ime.isEmpty()) {
+            throw new IllegalArgumentException("Ime aerodroma je prazno");
+        }
+
+        if(x < -180 || y < -90 || x > 180 || y > 90) {
+            throw new IllegalArgumentException("Koordinate aerodroma su izvan opsega");
+        }
+
         this.kod = kod;
         this.ime = ime;
         this.x = x;
         this.y = y;
     }
 
-
-
-
-
-
-
+    public String toString() {
+        return "Aerodrom: " + kod + " " + ime + " " + x + " " + y;
+    }
 
     public String getKod() {
         return kod;
-    }
-
-    public void setKod(String kod) {
-        this.kod = kod;
     }
 
     public String getIme() {

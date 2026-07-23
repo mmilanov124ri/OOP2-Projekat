@@ -1,5 +1,6 @@
 package Modeli;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,6 +21,22 @@ public class KontrolaLeta {
             throw new IllegalArgumentException("Aerodrom vec postoji");
         }
         aerodromi.add(aerodrom);
+    }
+
+    public void dodajLet(String polazniKod, String odredisniKod, LocalTime vreme, int trajanje) {
+        Aerodrom poletanjeAeorodrom = pronadjiAerodrom(polazniKod);
+        Aerodrom sletanjeAerodrom = pronadjiAerodrom(odredisniKod);
+
+        if(poletanjeAeorodrom == null) {
+            throw new IllegalArgumentException("Aerodrom za poletanje ne postoji");
+        }
+
+        if(sletanjeAerodrom == null) {
+            throw new IllegalArgumentException("Aerodrom za sletanje ne postoji");
+        }
+
+        Let noviLet = new Let(poletanjeAeorodrom,sletanjeAerodrom,vreme,trajanje);
+        letovi.add(noviLet);
     }
 
 
