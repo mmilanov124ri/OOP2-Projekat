@@ -16,7 +16,7 @@ public class Let {
     }
 
     public String toString() {
-        return "Let: " + polazniAerodrom.getKod() + " " + odredisniAerodrom.getKod() + " " + vremePoletanja + " " + trajanje;
+        return "Let: " + polazniAerodrom.getKod() + " -> " + odredisniAerodrom.getKod() + ", poletanje: " + vremePoletanja + ", trajanje: " + trajanje + " min";
     }
 
 

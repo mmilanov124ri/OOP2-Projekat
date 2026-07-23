@@ -26,7 +26,7 @@ public class Aerodrom {
     }
 
     public String toString() {
-        return "Aerodrom: " + kod + " " + ime + " " + x + " " + y;
+        return "Aerodrom: " + kod + " - " + ime + " (" + x + ", " + y + ")";
     }
 
     public String getKod() {
