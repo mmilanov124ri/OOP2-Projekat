@@ -39,6 +39,10 @@ public class KontrolaLeta {
         letovi.add(noviLet);
     }
 
+    public void obrisiSvePodatke(){
+        aerodromi.clear();
+        letovi.clear();
+    }
 
     public Aerodrom pronadjiAerodrom(String kod) {
         if(kod == null) {
