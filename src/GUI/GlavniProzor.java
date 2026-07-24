@@ -61,7 +61,7 @@ public class GlavniProzor extends Frame {
 
         panelAerodroma = new PanelAerodromi(kontrola);
         panelLetovi = new PanelLetovi(kontrola);
-        panelMapa = new PanelMapa(kontrola);
+        panelMapa = new PanelMapa(kontrola,neaktivnosti);
 
         panelKartica.add(panelAerodroma, "Aerodromi");
         panelKartica.add(panelLetovi, "Letovi");
@@ -70,11 +70,13 @@ public class GlavniProzor extends Frame {
         add(panelKartica, BorderLayout.CENTER);
 
         buttonAerodromi.addActionListener(e->{
+            panelMapa.ponistiSelekciju();
             panelAerodroma.osveziTabelu();
             rasporedKartica.show(panelKartica,"Aerodromi");
         });
 
         buttonLetovi.addActionListener(e->{
+            panelMapa.ponistiSelekciju();
             panelLetovi.osveziAerodrome();
             panelLetovi.osveziTabelu();
             rasporedKartica.show(panelKartica,"Letovi");
