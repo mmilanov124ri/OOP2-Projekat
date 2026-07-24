@@ -157,23 +157,33 @@ public class MapaAerodroma extends Canvas {
     private void obradiKlik(int misX, int misY){
         Aerodrom kliknutAerodrom = pronadjiAerodromNaPoziciji(misX, misY);
 
-        if(kliknutAerodrom != null){
-            selektovaniAerodrom = kliknutAerodrom;
-            prikazCrveno = true;
+        if(trenutnaSirinaMape <= 0 || trenutnaVisinaMape <= 0){
+            return;
+        }
 
-            neaktivnosti.pauziraj();
-        }else{
+        if(kliknutAerodrom != null && klikJeNaAerodromu(selektovaniAerodrom,misX,misY)){
             ponistiSelekciju();
             return;
         }
+
+        if(kliknutAerodrom == null){
+            ponistiSelekciju();
+            return;
+        }
+
+        selektovaniAerodrom = kliknutAerodrom;
+        prikazCrveno = true;
+
+        neaktivnosti.pauziraj();
         repaint();
+
     }
 
     private Aerodrom pronadjiAerodromNaPoziciji(int misX, int misY){
         Aerodrom najblizi = null;
         double najmanjeRastojanje = Double.MAX_VALUE;
 
-        int dozvoljenoRastojanje = 14;
+        int dozvoljenoRastojanje = 10;
 
         for(Aerodrom aerodrom : kontrola.getAerodromi()){
             if(!jeAerodromVidljiv(aerodrom.getKod())){
@@ -188,6 +198,7 @@ public class MapaAerodroma extends Canvas {
             double rastojanje = Math.sqrt(Math.pow(razlikaX, 2) + Math.pow(razlikaY, 2));
 
             if(rastojanje <= dozvoljenoRastojanje && rastojanje < najmanjeRastojanje){
+                najmanjeRastojanje = rastojanje;
                 najblizi = aerodrom;
             }
         }
@@ -239,5 +250,19 @@ public class MapaAerodroma extends Canvas {
 
         ponistiSelekciju();
         repaint();
+    }
+
+    private boolean klikJeNaAerodromu(Aerodrom aerodrom, int misX, int misY){
+        if(aerodrom == null || !jeAerodromVidljiv(aerodrom.getKod())){
+            return false;
+        }
+
+        int ekranX = pretvoriX(aerodrom.getX(),trenutniPocetakX,trenutnaSirinaMape);
+        int ekranY = pretvoriY(aerodrom.getY(),trenutniPocetakY,trenutnaVisinaMape);
+
+        int tolerancija = velicina/2 + 4;
+
+        return Math.abs(misX - ekranX) <= tolerancija && Math.abs(misY - ekranY) <= tolerancija;
+
     }
 }

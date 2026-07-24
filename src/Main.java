@@ -20,6 +20,8 @@ public class Main {
         KontrolaLeta kontrola = new KontrolaLeta();
         try {
 
+            CSVCitac.ucitaj("src/af.csv", kontrola);
+
             System.out.println("Pokretanje testa neaktivnosti...");
             System.out.println(
                     "Ne diraj program 5 sekundi: "

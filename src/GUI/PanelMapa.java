@@ -84,7 +84,9 @@ public class PanelMapa extends Panel {
         panelCheckBoxa.setLayout(new GridLayout(0,1,3,3));
 
         for(Aerodrom aerodrom : kontrola.getAerodromi()){
-            Checkbox checkbox = new Checkbox(aerodrom.getKod() + " - " + aerodrom.getIme(),mapa.jeAerodromVidljiv(aerodrom.getKod()));
+            String tekst = String.format("%s - %s (%d, %d)",aerodrom.getKod(),aerodrom.getIme(),aerodrom.getX(),aerodrom.getY());
+
+            Checkbox checkbox = new Checkbox(tekst,mapa.jeAerodromVidljiv(aerodrom.getKod()));
 
             checkbox.addItemListener(e -> {
                 mapa.postaviVidljivostAerodroma(aerodrom.getKod(),checkbox.getState());
