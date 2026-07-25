@@ -22,12 +22,6 @@ public class Main {
 
             CSVCitac.ucitaj("src/af.csv", kontrola);
 
-            System.out.println("Pokretanje testa neaktivnosti...");
-            System.out.println(
-                    "Ne diraj program 5 sekundi: "
-                            + "treba da se pojavi upozorenje."
-            );
-
             new GlavniProzor(kontrola);
 
         } catch (Exception e) {

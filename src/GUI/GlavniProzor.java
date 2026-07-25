@@ -16,6 +16,11 @@ import java.io.IOException;
 import java.nio.file.Path;
 
 
+import Modeli.Let;
+import Simulacija.SimulacijaLeta;
+import Simulacija.SchedulerLetova;
+import java.util.List;
+
 public class GlavniProzor extends Frame {
     private final KontrolaLeta kontrola;
 
@@ -130,7 +135,7 @@ public class GlavniProzor extends Frame {
         menuBar.add(meniFajl);
         setMenuBar(menuBar);
 
-        ucitajCSV.addActionListener(e->ucitajCSV());
+        ucitajCSV.addActionListener(e-> ucitajCSV());
         ucitajJSON.addActionListener(e-> ucitajJSON());
 
         sacuvajCSV.addActionListener(e->sacuvajCSV());
@@ -289,5 +294,57 @@ public class GlavniProzor extends Frame {
         dijalog.setLocationRelativeTo(this);
         dijalog.setVisible(true);
     }
+
+
+
+
+//--------------------------------------------------------------------
+
+private void testirajPlanerLetova() {
+    List<SimulacijaLeta> raspored =
+            SchedulerLetova.napraviRaspored(
+                    kontrola.getLetovi()
+            );
+
+    System.out.println("=== TEST PLANERA LETOVA ===");
+
+    for (SimulacijaLeta simulacioniLet : raspored) {
+        Let let = simulacioniLet.getLet();
+
+        /*
+         * Ispisujemo samo tri probna leta iz BEG
+         * oko ponoci.
+         */
+        if (let.getPoletanje().getKod().equals("BEG")
+                && let.getVreme().getHour() == 0) {
+
+            System.out.println(
+                    let.getPoletanje().getKod()
+                            + " -> "
+                            + let.getSletanje().getKod()
+                            + " | planirano: "
+                            + let.getVreme()
+                            + " | stvarno: "
+                            + formatirajMinut(
+                            simulacioniLet
+                                    .getPolazakMinuti()
+                    )
+            );
+        }
+    }
+
+    System.out.println("==========================");
+}
+    private String formatirajMinut(int ukupanBrojMinuta) {
+        int sati = (ukupanBrojMinuta / 60) % 24;
+        int minuti = ukupanBrojMinuta % 60;
+
+        return String.format(
+                "%02d:%02d",
+                sati,
+                minuti
+        );
+    }
+
 
 }
