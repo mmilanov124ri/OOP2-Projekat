@@ -258,6 +258,7 @@ public class GlavniProzor extends Frame {
         panelLetovi.osveziAerodrome();
         panelLetovi.osveziTabelu();
         panelMapa.osveziMapu();
+        panelMapa.osveziPodatkeSimulacije();
 
         validate();
         repaint();

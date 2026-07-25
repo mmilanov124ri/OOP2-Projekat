@@ -2,14 +2,25 @@ package GUI;
 
 import Modeli.Aerodrom;
 import Modeli.KontrolaLeta;
+import Simulacija.SchedulerLetova;
+import Simulacija.SimulacijaLeta;
+import Simulacija.SimulatorLetova;
 
-import javax.swing.*;
 import java.awt.*;
+import java.util.List;
 
 public class PanelMapa extends Panel {
     private final MapaAerodroma mapa;
     private final KontrolaLeta kontrola;
     private final Panel panelCheckBoxa;
+
+    private SimulatorLetova simulator;
+
+    private final Label labelaVreme;
+    private final Button buttonStart;
+    private final Button buttonPauza;
+    private final Button buttonReset;
+
 
     public PanelMapa(KontrolaLeta kontrola, MenadzerNeaktivnosti neaktivnosti) {
         if(kontrola == null){
@@ -24,6 +35,23 @@ public class PanelMapa extends Panel {
         Label naslov = new Label("Mapa aerodroma", Label.CENTER);
 
         naslov.setFont(new Font(Font.SANS_SERIF, Font.BOLD, 18));
+
+        labelaVreme = new Label("Vreme: 00:00", Label.CENTER);
+        labelaVreme.setFont(new Font(Font.MONOSPACED,Font.BOLD,16));
+
+        buttonStart = new Button("Start");
+        buttonPauza = new Button("Pauza");
+        buttonReset = new Button("Reset");
+
+        Panel panelKontrole = new Panel(new FlowLayout(FlowLayout.LEFT,10 ,5));
+        panelKontrole.add(labelaVreme);
+        panelKontrole.add(buttonStart);
+        panelKontrole.add(buttonPauza);
+        panelKontrole.add(buttonReset);
+
+        Panel gornjiPanel = new Panel(new BorderLayout());
+        gornjiPanel.add(naslov, BorderLayout.NORTH);
+        gornjiPanel.add(panelKontrole, BorderLayout.CENTER);
 
         mapa = new MapaAerodroma(kontrola,neaktivnosti);
 
@@ -51,7 +79,7 @@ public class PanelMapa extends Panel {
         desniPanel.add(skrolLista,BorderLayout.CENTER);
         desniPanel.add(panelButton,BorderLayout.SOUTH);
 
-        add(naslov,BorderLayout.NORTH);
+        add(gornjiPanel,BorderLayout.NORTH);
         add(mapa,BorderLayout.CENTER);
         add(desniPanel,BorderLayout.EAST);
 
@@ -64,6 +92,26 @@ public class PanelMapa extends Panel {
             mapa.sakrijSveAerodrome();
             osveziListuAerodroma();
         });
+
+        buttonStart.addActionListener(e->{
+            if(simulator != null){
+                simulator.start();
+            }
+        });
+
+        buttonPauza.addActionListener(e->{
+            if(simulator != null){
+                simulator.pauza();
+            }
+        });
+
+        buttonReset.addActionListener(e->{
+            if(simulator != null){
+                simulator.reset();
+            }
+        });
+
+        napraviNoviSimulator();
 
         osveziListuAerodroma();
 
@@ -105,5 +153,42 @@ public class PanelMapa extends Panel {
         panelCheckBoxa.repaint();
 
     }
+
+    private void napraviNoviSimulator(){
+        if(simulator != null){
+            simulator.zatvori();
+        }
+
+        List<SimulacijaLeta> raspored = SchedulerLetova.napraviRaspored(kontrola.getLetovi());
+
+        simulator = new SimulatorLetova(raspored,this::osveziPrikazSimualcije);
+
+        mapa.postaviSimulator(simulator);
+
+        osveziPrikazSimualcije();
+
+    }
+
+    private void osveziPrikazSimualcije(){
+        if(simulator == null){
+            labelaVreme.setText("Vreme: 00:00");
+            return;
+        }
+
+        labelaVreme.setText("Vreme: " + simulator.getFormatiranoVreme());
+
+        mapa.repaint();
+
+    }
+
+    public void osveziPodatkeSimulacije(){
+        napraviNoviSimulator();
+    }
+    public void zatvori(){
+        if(simulator != null){
+            simulator.zatvori();
+        }
+    }
+
 
 }

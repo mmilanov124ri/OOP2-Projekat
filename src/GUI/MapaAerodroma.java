@@ -2,8 +2,11 @@ package GUI;
 
 import Modeli.Aerodrom;
 import Modeli.KontrolaLeta;
+import Modeli.Let;
 
-import javax.swing.*;
+import Simulacija.SimulacijaLeta;
+import Simulacija.SimulatorLetova;
+
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
@@ -18,6 +21,8 @@ public class MapaAerodroma extends Canvas {
     private static final int velicina = 12;
 
     private final KontrolaLeta kontrola;
+
+    private SimulatorLetova simulator;
 
     private final MenadzerNeaktivnosti neaktivnosti;
 
@@ -101,6 +106,8 @@ public class MapaAerodroma extends Canvas {
             }
             nacrtajAerodrom(g, aerodrom, pocetakX, pocetakY, sirinaMape, visinaMape);
         }
+
+        nacrtajAvione(g);
     }
 
     private void nacrtajOkvirMape(Graphics g, int pocetakX, int pocetakY, int sirinaMape, int visinaMape) {
@@ -265,4 +272,54 @@ public class MapaAerodroma extends Canvas {
         return Math.abs(misX - ekranX) <= tolerancija && Math.abs(misY - ekranY) <= tolerancija;
 
     }
+
+    public void postaviSimulator(SimulatorLetova simulator){
+        this.simulator = simulator;
+        repaint();
+    }
+
+    private void nacrtajAvione(Graphics g){
+        if(simulator == null){
+            return;
+        }
+
+        double trenutnoVreme = simulator.getTrenutnoVremeUMinutima();
+
+        for(SimulacijaLeta simulacija : simulator.getAktivniLetovi()){
+            Let let = simulacija.getLet();
+
+            Aerodrom polazni = let.getPoletanje();
+            Aerodrom odredisni = let.getSletanje();
+
+            double predjeno = simulacija.getNapredak(trenutnoVreme);
+
+            int pocetniX = pretvoriX(polazni.getX(),trenutniPocetakX,trenutnaSirinaMape);
+            int pocetniY = pretvoriY(polazni.getY(),trenutniPocetakY,trenutnaVisinaMape);
+
+            int krajnjiX = pretvoriX(odredisni.getX(),trenutniPocetakX,trenutnaSirinaMape);
+            int krajnjiY = pretvoriY(odredisni.getY(),trenutniPocetakY,trenutnaVisinaMape);
+
+            int trenutniX = (int) Math.round(pocetniX + predjeno * (krajnjiX - pocetniX));
+            int trenutniY = (int) Math.round(pocetniY + predjeno * (krajnjiY - pocetniY));
+
+
+            int velicinaAviona = 10;
+
+            g.setColor(Color.BLUE);
+
+            g.fillOval(trenutniX - velicinaAviona/2,trenutniY-velicinaAviona/2,velicinaAviona,velicinaAviona);
+
+            System.out.println(
+                    let.getPoletanje().getKod()
+                            + " -> "
+                            + let.getSletanje().getKod()
+                            + " | vreme=" + trenutnoVreme
+                            + " | napredak=" + predjeno
+            );
+
+
+        }
+
+    }
+
 }

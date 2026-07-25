@@ -53,7 +53,7 @@ public class SimulacijaLeta {
         if(trenutnoVreme >= getKrajLetaMinuti()){
             return 1.0;
         }
-        return (trenutnoVreme - polazakMinuti)/let.getTrajanje();
+        return (trenutnoVreme - polazakMinuti) / (double) let.getTrajanje();
     }
 
 }

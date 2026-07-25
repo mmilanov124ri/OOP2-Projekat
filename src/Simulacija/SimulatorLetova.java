@@ -99,7 +99,7 @@ public class SimulatorLetova {
     public synchronized String getFormatiranoVreme(){
         int ukupnoMinuta = (int) Math.floor(trenutnoVremeUMinutima);
 
-        int sati = (ukupnoMinuta) / 60;
+        int sati = ((ukupnoMinuta) / 60) % 24;
         int minuti = (ukupnoMinuta % 60);
 
         return String.format("%02d:%02d",sati,minuti);
