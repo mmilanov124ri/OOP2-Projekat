@@ -33,7 +33,7 @@ public class GlavniProzor extends Frame {
     public GlavniProzor(KontrolaLeta kontrola) throws IllegalAccessException {
         super("Konntrola leta");
 
-        if(kontrola == null){
+        if (kontrola == null) {
             throw new IllegalAccessException(
                     "Nevalidna kontrola leta"
             );
@@ -42,10 +42,10 @@ public class GlavniProzor extends Frame {
         this.kontrola = kontrola;
 
         //neaktivnosti = new MenadzerNeaktivnosti(this,60000,5);
-        neaktivnosti = new MenadzerNeaktivnosti(this,30000,5);
+        neaktivnosti = new MenadzerNeaktivnosti(this, 10000, 5);
 
-        setSize(1250,750);
-        setMinimumSize(new Dimension(1000,650));
+        setSize(1250, 750);
+        setMinimumSize(new Dimension(1000, 650));
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
@@ -66,7 +66,7 @@ public class GlavniProzor extends Frame {
 
         panelAerodroma = new PanelAerodromi(kontrola);
         panelLetovi = new PanelLetovi(kontrola);
-        panelMapa = new PanelMapa(kontrola,neaktivnosti);
+        panelMapa = new PanelMapa(kontrola, neaktivnosti);
 
         panelKartica.add(panelAerodroma, "Aerodromi");
         panelKartica.add(panelLetovi, "Letovi");
@@ -74,23 +74,23 @@ public class GlavniProzor extends Frame {
 
         add(panelKartica, BorderLayout.CENTER);
 
-        buttonAerodromi.addActionListener(e->{
+        buttonAerodromi.addActionListener(e -> {
             panelMapa.ponistiSelekciju();
             panelAerodroma.osveziTabelu();
-            rasporedKartica.show(panelKartica,"Aerodromi");
+            rasporedKartica.show(panelKartica, "Aerodromi");
         });
 
-        buttonLetovi.addActionListener(e->{
+        buttonLetovi.addActionListener(e -> {
             panelMapa.ponistiSelekciju();
             panelLetovi.osveziAerodrome();
             panelLetovi.osveziTabelu();
-            rasporedKartica.show(panelKartica,"Letovi");
+            rasporedKartica.show(panelKartica, "Letovi");
         });
 
-        buttonMapa.addActionListener(e->{
+        buttonMapa.addActionListener(e -> {
             panelMapa.osveziMapu();
 
-            rasporedKartica.show(panelKartica,"Mapa");
+            rasporedKartica.show(panelKartica, "Mapa");
         });
 
 
@@ -111,7 +111,7 @@ public class GlavniProzor extends Frame {
 
     }
 
-    private void napraviMeni(){
+    private void napraviMeni() {
         MenuBar menuBar = new MenuBar();
 
         Menu meniFajl = new Menu("Fajl");
@@ -135,98 +135,96 @@ public class GlavniProzor extends Frame {
         menuBar.add(meniFajl);
         setMenuBar(menuBar);
 
-        ucitajCSV.addActionListener(e-> ucitajCSV());
-        ucitajJSON.addActionListener(e-> ucitajJSON());
+        ucitajCSV.addActionListener(e -> ucitajCSV());
+        ucitajJSON.addActionListener(e -> ucitajJSON());
 
-        sacuvajCSV.addActionListener(e->sacuvajCSV());
-        sacuvajJSON.addActionListener(e->sacuvajJSON());
+        sacuvajCSV.addActionListener(e -> sacuvajCSV());
+        sacuvajJSON.addActionListener(e -> sacuvajJSON());
 
-        izlaz.addActionListener(e->{
+        izlaz.addActionListener(e -> {
             dispose();
             System.exit(0);
         });
     }
 
-    private void ucitajCSV(){
+    private void ucitajCSV() {
         String putanja = izaberiFajl("Izaberite CSV fajl", FileDialog.LOAD);
 
-        if(putanja == null){
+        if (putanja == null) {
             return;
         }
 
-        try{
-            CSVCitac.ucitaj(putanja,kontrola);
+        try {
+            CSVCitac.ucitaj(putanja, kontrola);
             osveziSvePrikaze();
 
             prikaziPoruku("Uspeh", "Uspesno ucitan CSV fajl");
 
-        }catch (IOException e){
+        } catch (IOException e) {
             prikaziPoruku("Greska", "Nedozvoljen pristup CSV fajlu" + e.getMessage());
-        }
-        catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             prikaziPoruku("Greska", "Neispravan CSV fajl: " + e.getMessage());
         }
     }
 
-    private void ucitajJSON(){
+    private void ucitajJSON() {
         String putanja = izaberiFajl("Izaberite JSON fajl", FileDialog.LOAD);
 
-        if(putanja == null){
+        if (putanja == null) {
             return;
         }
 
-        try{
-            JSONCitac.ucitaj(putanja,kontrola);
+        try {
+            JSONCitac.ucitaj(putanja, kontrola);
 
             osveziSvePrikaze();
 
             prikaziPoruku("Uspeh", "JSON fajl je uspesno ucitan");
 
-        }catch (IOException e){
+        } catch (IOException e) {
             prikaziPoruku("Greska", "Nedozvoljen pristup JSON fajlu" + e.getMessage());
 
 
-        }catch (IllegalArgumentException e){
+        } catch (IllegalArgumentException e) {
             prikaziPoruku("Greska", "Neispravan JSON fajl: " + e.getMessage());
         }
     }
 
-    private void sacuvajCSV(){
+    private void sacuvajCSV() {
         String putanja = izaberiFajl("Sacuvajte CSV fajl", FileDialog.SAVE);
 
-        if(putanja == null){
+        if (putanja == null) {
             return;
         }
 
-        try{
+        try {
             CSVPisac.sacuvaj(putanja, kontrola);
 
             prikaziPoruku("Uspeh", "Uspesno sacuvan CSV fajl");
-        }catch (IOException | IllegalArgumentException e){
+        } catch (IOException | IllegalArgumentException e) {
             prikaziPoruku("Greska", "Neuspesno cuvanje" + e.getMessage());
         }
     }
 
-    private void sacuvajJSON(){
+    private void sacuvajJSON() {
         String putanja = izaberiFajl("Sacuvajte JSON fajl", FileDialog.SAVE);
 
-        if(putanja == null){
+        if (putanja == null) {
             return;
         }
 
-        putanja =  dodajEkstenziju(putanja, ",json");
+        putanja = dodajEkstenziju(putanja, ",json");
 
-        try{
-            JSONPisac.sacuvaj(putanja,kontrola);
+        try {
+            JSONPisac.sacuvaj(putanja, kontrola);
 
             prikaziPoruku("Uspeh", "Uspesno sacuvan JSON fajl");
 
-        }catch (IOException | IllegalArgumentException e){
+        } catch (IOException | IllegalArgumentException e) {
             prikaziPoruku("Greska", "Neuspesno cuvanje fajla" + e.getMessage());
         }
 
     }
-
 
 
     private String izaberiFajl(String naslov, int rezim) {
@@ -237,7 +235,7 @@ public class GlavniProzor extends Frame {
         String imeFajla = izbor.getFile();
         String direktorijum = izbor.getDirectory();
 
-        if(imeFajla == null || direktorijum == null){
+        if (imeFajla == null || direktorijum == null) {
             return null;
         }
 
@@ -245,15 +243,15 @@ public class GlavniProzor extends Frame {
 
     }
 
-    private String dodajEkstenziju(String putanja, String ekstenzija){
-        if(!putanja.toLowerCase().endsWith(ekstenzija)){
+    private String dodajEkstenziju(String putanja, String ekstenzija) {
+        if (!putanja.toLowerCase().endsWith(ekstenzija)) {
             return putanja + ekstenzija;
         }
 
         return putanja;
     }
 
-    private void osveziSvePrikaze(){
+    private void osveziSvePrikaze() {
         panelAerodroma.osveziTabelu();
         panelLetovi.osveziAerodrome();
         panelLetovi.osveziTabelu();
@@ -295,57 +293,4 @@ public class GlavniProzor extends Frame {
         dijalog.setLocationRelativeTo(this);
         dijalog.setVisible(true);
     }
-
-
-
-
-//--------------------------------------------------------------------
-
-private void testirajPlanerLetova() {
-    List<SimulacijaLeta> raspored =
-            SchedulerLetova.napraviRaspored(
-                    kontrola.getLetovi()
-            );
-
-    System.out.println("=== TEST PLANERA LETOVA ===");
-
-    for (SimulacijaLeta simulacioniLet : raspored) {
-        Let let = simulacioniLet.getLet();
-
-        /*
-         * Ispisujemo samo tri probna leta iz BEG
-         * oko ponoci.
-         */
-        if (let.getPoletanje().getKod().equals("BEG")
-                && let.getVreme().getHour() == 0) {
-
-            System.out.println(
-                    let.getPoletanje().getKod()
-                            + " -> "
-                            + let.getSletanje().getKod()
-                            + " | planirano: "
-                            + let.getVreme()
-                            + " | stvarno: "
-                            + formatirajMinut(
-                            simulacioniLet
-                                    .getPolazakMinuti()
-                    )
-            );
-        }
-    }
-
-    System.out.println("==========================");
-}
-    private String formatirajMinut(int ukupanBrojMinuta) {
-        int sati = (ukupanBrojMinuta / 60) % 24;
-        int minuti = ukupanBrojMinuta % 60;
-
-        return String.format(
-                "%02d:%02d",
-                sati,
-                minuti
-        );
-    }
-
-
 }

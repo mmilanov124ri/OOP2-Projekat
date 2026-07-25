@@ -21,6 +21,7 @@ public class PanelMapa extends Panel {
     private final Button buttonPauza;
     private final Button buttonReset;
 
+    private final MenadzerNeaktivnosti neaktivnosti;
 
     public PanelMapa(KontrolaLeta kontrola, MenadzerNeaktivnosti neaktivnosti) {
         if(kontrola == null){
@@ -29,6 +30,8 @@ public class PanelMapa extends Panel {
         }
 
         this.kontrola = kontrola;
+
+        this.neaktivnosti = neaktivnosti;
 
         setLayout(new BorderLayout(10, 10));
 
@@ -96,18 +99,21 @@ public class PanelMapa extends Panel {
         buttonStart.addActionListener(e->{
             if(simulator != null){
                 simulator.start();
+                azurirajNeaktivnost();
             }
         });
 
         buttonPauza.addActionListener(e->{
             if(simulator != null){
                 simulator.pauza();
+                azurirajNeaktivnost();
             }
         });
 
         buttonReset.addActionListener(e->{
             if(simulator != null){
                 simulator.reset();
+                azurirajNeaktivnost();
             }
         });
 
@@ -188,6 +194,19 @@ public class PanelMapa extends Panel {
         if(simulator != null){
             simulator.zatvori();
         }
+    }
+
+    private void azurirajNeaktivnost(){
+        boolean simulacijaUToku = simulator != null && simulator.jePokrenut();
+
+        boolean aerodromJeSelektovan = mapa.imaSelektovanAerodrom();
+
+        if(simulacijaUToku || aerodromJeSelektovan){
+            neaktivnosti.pauziraj();
+        }else{
+            neaktivnosti.nastavi();
+        }
+
     }
 
 

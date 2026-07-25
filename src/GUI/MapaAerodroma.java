@@ -212,12 +212,14 @@ public class MapaAerodroma extends Canvas {
         return najblizi;
     }
 
-    public void ponistiSelekciju(){
+    public void ponistiSelekciju() {
 
         selektovaniAerodrom = null;
         prikazCrveno = true;
 
+        if(simulator == null || !simulator.jePokrenut()){
         neaktivnosti.nastavi();
+        }
         repaint();
     }
 
@@ -309,17 +311,12 @@ public class MapaAerodroma extends Canvas {
 
             g.fillOval(trenutniX - velicinaAviona/2,trenutniY-velicinaAviona/2,velicinaAviona,velicinaAviona);
 
-            System.out.println(
-                    let.getPoletanje().getKod()
-                            + " -> "
-                            + let.getSletanje().getKod()
-                            + " | vreme=" + trenutnoVreme
-                            + " | napredak=" + predjeno
-            );
-
-
         }
 
+    }
+
+    public boolean imaSelektovanAerodrom(){
+        return selektovaniAerodrom != null;
     }
 
 }
