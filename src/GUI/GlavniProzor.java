@@ -44,7 +44,7 @@ public class GlavniProzor extends Frame {
         //neaktivnosti = new MenadzerNeaktivnosti(this,60000,5);
         neaktivnosti = new MenadzerNeaktivnosti(this, 10000, 5);
 
-        setSize(1250, 750);
+        setSize(1600, 900);
         setMinimumSize(new Dimension(1000, 650));
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
@@ -64,8 +64,8 @@ public class GlavniProzor extends Frame {
         CardLayout rasporedKartica = new CardLayout();
         Panel panelKartica = new Panel(rasporedKartica);
 
-        panelAerodroma = new PanelAerodromi(kontrola);
-        panelLetovi = new PanelLetovi(kontrola);
+        panelAerodroma = new PanelAerodromi(kontrola,this::osveziSvePrikaze);
+        panelLetovi = new PanelLetovi(kontrola, this::osveziSvePrikaze);
         panelMapa = new PanelMapa(kontrola, neaktivnosti);
 
         panelKartica.add(panelAerodroma, "Aerodromi");

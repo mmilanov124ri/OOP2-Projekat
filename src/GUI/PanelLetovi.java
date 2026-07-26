@@ -20,15 +20,18 @@ public class PanelLetovi extends Panel {
     private final TextField poljeVreme;
     private final TextField poljeTrajanje;
 
+    private final Runnable promene;
+
     private final Panel panelTabele;
 
-    public PanelLetovi(KontrolaLeta kontrola) {
+    public PanelLetovi(KontrolaLeta kontrola, Runnable promene) {
         if(kontrola == null){
             throw new IllegalArgumentException(
                     "Nevalidna kontrola leta");
         }
 
         this.kontrola = kontrola;
+        this.promene = promene;
 
         setLayout(new BorderLayout(10 ,10));
 
@@ -165,6 +168,10 @@ public class PanelLetovi extends Panel {
             }
 
             kontrola.dodajLet(polazniKod,odredisniKod,vremePoletanja,trajanje);
+
+            if(promene != null){
+                promene.run();
+            }
 
             osveziTabelu();
             ocistiPolja();

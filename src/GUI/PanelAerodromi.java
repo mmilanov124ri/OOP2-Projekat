@@ -15,15 +15,18 @@ public class PanelAerodromi extends Panel{
     private final TextField poljeX;
     private final TextField poljeY;
 
+    private final Runnable promene;
+
     private final Panel panelTabele;
 
-    public PanelAerodromi(KontrolaLeta kontrola) {
+    public PanelAerodromi(KontrolaLeta kontrola, Runnable promene) {
         if(kontrola == null){
             throw new IllegalArgumentException(
                     "Nevalidna kontrola leta");
         }
 
         this.kontrola = kontrola;
+        this.promene = promene;
 
         setLayout(new BorderLayout(10, 10));
 
@@ -78,6 +81,10 @@ public class PanelAerodromi extends Panel{
 
             Aerodrom aerodrom = new Aerodrom(kod,naziv,x,y);
             kontrola.dodajAerodrom(aerodrom);
+
+            if(promene != null){
+                promene.run();
+            }
 
             osveziTabelu();
             ocistiPolja();
