@@ -11,10 +11,15 @@ public class SchedulerLetova {
     private SchedulerLetova() {}
 
     public static List<SimulacijaLeta> napraviRaspored(List<Let> letovi) {
-        if (letovi.isEmpty())
+        if (letovi == null){
             throw new IllegalArgumentException(
                     "Lista letova je prazna"
             );
+        }
+
+        if(letovi.isEmpty()){
+            return new ArrayList<>();
+        }
 
         List<IndeksiraniLet> sortiraniLetovi = new ArrayList<>();
 
@@ -42,21 +47,19 @@ public class SchedulerLetova {
 
             int planiranoVreme = uMinute(let.getVreme());
 
-            int najbliziTermin = zaokruziTermin(planiranoVreme);
-
             String kodAerodroma = let.getPoletanje().getKod();
 
             int slobodnoOd = sledeciSlobodanTermin.getOrDefault(kodAerodroma, 0);
 
-            int realniPolazak = Math.max(najbliziTermin, slobodnoOd);
+            int realniPolazak = Math.max(planiranoVreme,slobodnoOd);
 
             rezultat.add(new SimulacijaLeta(let, realniPolazak));
 
             sledeciSlobodanTermin.put(kodAerodroma,realniPolazak + termin);
 
-            rezultat.sort(Comparator.comparingInt(SimulacijaLeta::getPolazakMinuti));
-
         }
+
+        rezultat.sort(Comparator.comparingInt(SimulacijaLeta::getPolazakMinuti));
 
         return rezultat;
 
@@ -75,11 +78,6 @@ public class SchedulerLetova {
 
         return vreme.getHour() * 60 + vreme.getMinute();
     }
-
-    private static int zaokruziTermin(int minut){
-        return ((minut + termin - 1)/termin * termin);
-    }
-
 
     private static class IndeksiraniLet {
         private final Let let;

@@ -172,6 +172,7 @@ public class PanelMapa extends Panel {
         mapa.postaviSimulator(simulator);
 
         osveziPrikazSimualcije();
+        azurirajNeaktivnost();
 
     }
 
@@ -190,10 +191,13 @@ public class PanelMapa extends Panel {
     public void osveziPodatkeSimulacije(){
         napraviNoviSimulator();
     }
+
     public void zatvori(){
         if(simulator != null){
             simulator.zatvori();
         }
+
+        mapa.zatvori();
     }
 
     private void azurirajNeaktivnost(){

@@ -280,6 +280,10 @@ public class MapaAerodroma extends Canvas {
         repaint();
     }
 
+    public void zatvori(){
+        tajmerTreperenja.cancel();
+    }
+
     private void nacrtajAvione(Graphics g){
         if(simulator == null){
             return;

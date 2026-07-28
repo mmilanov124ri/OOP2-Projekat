@@ -40,7 +40,7 @@ public class MenadzerNeaktivnosti {
             );
         }
 
-        if(sekundeUpozorenja <= 0 || sekundeUpozorenja >= limitMilisekundi){
+        if(sekundeUpozorenja <= 0 || sekundeUpozorenja * 1000L >= limitMilisekundi){
             throw new IllegalArgumentException(
                     "Vreme upozorenja nevalidno"
             );
@@ -80,8 +80,6 @@ public class MenadzerNeaktivnosti {
         Toolkit.getDefaultToolkit().addAWTEventListener(osluskivanjeAktivnosti, maskaDogadjaja);
 
         izvrsilac.scheduleAtFixedRate(this::proveriNeaktivnost,0,1, TimeUnit.SECONDS);
-
-        izvrsilac.scheduleAtFixedRate(this::proveriNeaktivnost,0,1,TimeUnit.SECONDS);
 
     }
 

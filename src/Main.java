@@ -17,21 +17,20 @@ import java.time.LocalTime;
 public class Main {
 
     public static void main(String[] args) {
-        KontrolaLeta kontrola = new KontrolaLeta();
-        try {
+        EventQueue.invokeLater(() -> {
+            try {
+                KontrolaLeta kontrola = new KontrolaLeta();
 
-            CSVCitac.ucitaj("src/af.csv", kontrola);
+                new GlavniProzor(kontrola);
 
-            new GlavniProzor(kontrola);
+            } catch (Exception e) {
+                System.err.println(
+                        "Greska pri pokretanju aplikacije: " + e.getMessage()
+                );
 
-        } catch (Exception e) {
-            System.err.println(
-                    "Greska pri pokretanju aplikacije: "
-                            + e.getMessage()
-            );
-
-            e.printStackTrace();
-        }
+                e.printStackTrace();
+            }
+        });
 
     }
 }

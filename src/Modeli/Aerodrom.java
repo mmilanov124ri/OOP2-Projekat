@@ -11,7 +11,7 @@ public class Aerodrom {
             throw new IllegalArgumentException("Kod aerodroma nije validan");
         }
 
-        if(ime == null || ime.isEmpty()) {
+        if(ime.isBlank()) {
             throw new IllegalArgumentException("Ime aerodroma je prazno");
         }
 
@@ -46,6 +46,12 @@ public class Aerodrom {
     }
 
     public void setX(int x) {
+        if(x < -180 || x > 180){
+            throw new IllegalArgumentException(
+                    "Nevalidan opseg X koordinate [-180,180]"
+            );
+        }
+
         this.x = x;
     }
 
@@ -54,6 +60,12 @@ public class Aerodrom {
     }
 
     public void setY(int y) {
+        if(y < -90 || y > 90){
+            throw new IllegalArgumentException(
+                    "Nevalidan opseg Y koordinate [-90,90]"
+            );
+        }
+
         this.y = y;
     }
 }

@@ -102,7 +102,7 @@ public class PanelLetovi extends Panel {
 
         izaberiAkoPostoji(izborSletanje,prethodnoSletanje);
 
-        if(izborSletanje.getItemCount() >= 2 && izborPoletanje.getSelectedIndex() == izborPoletanje.getSelectedIndex()){
+        if(izborSletanje.getItemCount() >= 2 && izborPoletanje.getSelectedIndex() == izborSletanje.getSelectedIndex()){
             izborSletanje.select(1);
         }
 

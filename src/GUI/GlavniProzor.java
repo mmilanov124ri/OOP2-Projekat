@@ -97,9 +97,7 @@ public class GlavniProzor extends Frame {
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
-                neaktivnosti.zaustavi();
-                dispose();
-                System.exit(0);
+                zatvoriAplikaciju();
             }
         });
 
@@ -142,8 +140,7 @@ public class GlavniProzor extends Frame {
         sacuvajJSON.addActionListener(e -> sacuvajJSON());
 
         izlaz.addActionListener(e -> {
-            dispose();
-            System.exit(0);
+            zatvoriAplikaciju();
         });
     }
 
@@ -213,7 +210,7 @@ public class GlavniProzor extends Frame {
             return;
         }
 
-        putanja = dodajEkstenziju(putanja, ",json");
+        putanja = dodajEkstenziju(putanja, ".json");
 
         try {
             JSONPisac.sacuvaj(putanja, kontrola);
@@ -252,6 +249,7 @@ public class GlavniProzor extends Frame {
     }
 
     private void osveziSvePrikaze() {
+        panelMapa.ponistiSelekciju();
         panelAerodroma.osveziTabelu();
         panelLetovi.osveziAerodrome();
         panelLetovi.osveziTabelu();
@@ -260,6 +258,14 @@ public class GlavniProzor extends Frame {
 
         validate();
         repaint();
+    }
+
+    private void zatvoriAplikaciju(){
+        panelMapa.zatvori();
+        neaktivnosti.zaustavi();
+
+        dispose();
+        System.exit(0);
     }
 
     private void prikaziPoruku(String naslov, String poruka) {
