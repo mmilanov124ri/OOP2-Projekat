@@ -8,11 +8,13 @@ public class KontrolaLeta {
     private List<Aerodrom> aerodromi;
     private List<Let> letovi;
 
+    //kreiranje kontrole leta
     public KontrolaLeta() {
         aerodromi = new ArrayList<>();
         letovi = new ArrayList<>();
     }
 
+    //dodavanje novog aerodroma u listu
     public void dodajAerodrom(Aerodrom aerodrom) {
         if(aerodrom == null) {
             throw new IllegalArgumentException("Aerodrom nije unet");
@@ -23,6 +25,7 @@ public class KontrolaLeta {
         aerodromi.add(aerodrom);
     }
 
+    //dodavanje novog leta u listu
     public void dodajLet(String polazniKod, String odredisniKod, LocalTime vreme, int trajanje) {
         Aerodrom poletanjeAeorodrom = pronadjiAerodrom(polazniKod);
         Aerodrom sletanjeAerodrom = pronadjiAerodrom(odredisniKod);
@@ -39,11 +42,13 @@ public class KontrolaLeta {
         letovi.add(noviLet);
     }
 
+    //brisanje liste aerodroma i letova
     public void obrisiSvePodatke(){
         aerodromi.clear();
         letovi.clear();
     }
 
+    //trazenje aerodroma u listi aerodroma
     public Aerodrom pronadjiAerodrom(String kod) {
         if(kod == null) {
             return null;

@@ -23,6 +23,7 @@ public class PanelMapa extends Panel {
 
     private final MenadzerNeaktivnosti neaktivnosti;
 
+    //kreiranje panela za crtanje mape
     public PanelMapa(KontrolaLeta kontrola, MenadzerNeaktivnosti neaktivnosti) {
         if(kontrola == null){
             throw new NullPointerException(
@@ -123,15 +124,18 @@ public class PanelMapa extends Panel {
 
     }
 
+    //refresh mape
     public void osveziMapu(){
         osveziListuAerodroma();
         mapa.osveziMapu();
     }
 
+    //ponistavanje selekcije aerodroma
     public void ponistiSelekciju(){
         mapa.ponistiSelekciju();
     }
 
+    //refresh liste aerodroma
     public void osveziListuAerodroma(){
         panelCheckBoxa.removeAll();
 
@@ -160,6 +164,7 @@ public class PanelMapa extends Panel {
 
     }
 
+    //kreiranje nove simulacije letova
     private void napraviNoviSimulator(){
         if(simulator != null){
             simulator.zatvori();
@@ -176,6 +181,7 @@ public class PanelMapa extends Panel {
 
     }
 
+    //refresh simulacije letova
     private void osveziPrikazSimualcije(){
         if(simulator == null){
             labelaVreme.setText("Vreme: 00:00");
@@ -188,10 +194,12 @@ public class PanelMapa extends Panel {
 
     }
 
+    //refresh simulacije
     public void osveziPodatkeSimulacije(){
         napraviNoviSimulator();
     }
 
+    //zatvaranje panela mape
     public void zatvori(){
         if(simulator != null){
             simulator.zatvori();
@@ -200,6 +208,7 @@ public class PanelMapa extends Panel {
         mapa.zatvori();
     }
 
+    //refresh tajmera neaktivnosti
     private void azurirajNeaktivnost(){
         boolean simulacijaUToku = simulator != null && simulator.jePokrenut();
 

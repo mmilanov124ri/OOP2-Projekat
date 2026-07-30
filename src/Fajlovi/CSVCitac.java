@@ -14,8 +14,11 @@ import java.time.LocalTime;
 import java.time.format.DateTimeParseException;
 
 public class CSVCitac {
+
+    //Modeli definise da li linija koda pripada aerodromu, letu ili nije nijedno od ta dva
     private enum Modeli {Aerodrom, Let, Nista}
 
+    //Ucitava putanju do fajla za datu kontrolu leta
     public static void ucitaj(String path, KontrolaLeta kontrolaLeta) throws IOException {
         if(path == null || path.isEmpty()) {
             throw new IllegalArgumentException(
@@ -26,6 +29,7 @@ public class CSVCitac {
         KontrolaLeta temp = new KontrolaLeta();
         Modeli model = Modeli.Nista;
 
+        //prolazi liniju po liniju i deklarise je po vrsti
         try (BufferedReader citac = new BufferedReader(new FileReader(path))) {
 
             String linija;
@@ -87,6 +91,7 @@ public class CSVCitac {
 
     }
 
+    //kreira konkretan aerodrom iz ucitane linije
     private static void ucitajAerodrom(String linija, KontrolaLeta kontrolaLeta){
         String[] delovi = linija.split(",",-1);
 
@@ -115,6 +120,7 @@ public class CSVCitac {
         kontrolaLeta.dodajAerodrom(new Aerodrom(kod,ime,x,y));
     }
 
+    //kreira konkretan let iz ucitane linije
     private static void ucitajLet(String linija, KontrolaLeta kontrolaLeta){
         String[] delovi = linija.split(",",-1);
 

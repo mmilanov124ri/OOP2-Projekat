@@ -6,6 +6,7 @@ public class Aerodrom {
     private int x;
     private int y;
 
+    //kreiranje novog aerodroma
     public Aerodrom(String kod, String ime, int x, int y) {
         if(kod == null || !kod.matches("[A-Z]{3}")) {
             throw new IllegalArgumentException("Kod aerodroma nije validan");

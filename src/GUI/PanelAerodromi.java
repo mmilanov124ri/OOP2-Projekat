@@ -19,6 +19,7 @@ public class PanelAerodromi extends Panel{
 
     private final Panel panelTabele;
 
+    //kreiranje panela aerodroma
     public PanelAerodromi(KontrolaLeta kontrola, Runnable promene) {
         if(kontrola == null){
             throw new IllegalArgumentException(
@@ -70,6 +71,7 @@ public class PanelAerodromi extends Panel{
 
     }
 
+    //dodavanje pojedinacnog aerodroma u listu
     private void dodajAerodrom() {
         try{
             String kod = poljeKod.getText().trim();
@@ -98,6 +100,7 @@ public class PanelAerodromi extends Panel{
 
     }
 
+    //refresh tabele aerodroma
     public void osveziTabelu(){
         panelTabele.removeAll();
 
@@ -134,6 +137,7 @@ public class PanelAerodromi extends Panel{
 
     }
 
+    //ciscenje polja za unos parametara novog aerodroma
     private void ocistiPolja(){
         poljeKod.setText("");
         poljeNaziv.setText("");
@@ -143,6 +147,7 @@ public class PanelAerodromi extends Panel{
         poljeKod.requestFocus();
     }
 
+    //prikaz poruke o statusu
     private void prikaziPoruku(String naslov, String poruka){
         Frame roditelj = pronadjiRoditeljskiFrame();
 
@@ -175,6 +180,7 @@ public class PanelAerodromi extends Panel{
         dijalog.setVisible(true);
     }
 
+    //nalazi glavni prozor aplikacije
     private Frame pronadjiRoditeljskiFrame(){
         Container roditelj = getParent();
 
@@ -188,8 +194,5 @@ public class PanelAerodromi extends Panel{
         return null;
 
     }
-
-
-
 
 }

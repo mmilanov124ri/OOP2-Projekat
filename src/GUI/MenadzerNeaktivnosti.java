@@ -27,6 +27,7 @@ public class MenadzerNeaktivnosti {
 
     private final AWTEventListener osluskivanjeAktivnosti;
 
+    //kreiranje tajmera neaktivnosti korisnika
     public MenadzerNeaktivnosti(Frame roditelj, int limitMilisekundi, int sekundeUpozorenja) {
         if(roditelj == null){
             throw new IllegalArgumentException(
@@ -71,6 +72,7 @@ public class MenadzerNeaktivnosti {
 
     }
 
+    //pokretanje tajmera
     public void pokreni(){
         long maskaDogadjaja = AWTEvent.KEY_EVENT_MASK
                 | AWTEvent.MOUSE_EVENT_MASK | AWTEvent.MOUSE_MOTION_EVENT_MASK
@@ -83,6 +85,7 @@ public class MenadzerNeaktivnosti {
 
     }
 
+    //provera tajmera i eventualno resetovanje ili gasenje programa
     private void proveriNeaktivnost(){
         if(pauziran || gasenjePokrenuto.get()){
             return;
@@ -112,6 +115,7 @@ public class MenadzerNeaktivnosti {
             }
     }
 
+    //prikaz upozorenja pred gasenje programa
     private void prikaziUpozorenje(int preostaloSekundi){
         if(!roditelj.isDisplayable()){
            return;
@@ -149,16 +153,19 @@ public class MenadzerNeaktivnosti {
 
     }
 
+    //refresh tajmera
     private void osveziOdbrojavanje(int preostaloSekundi){
         if(tekstOdbrojavanja != null){
             tekstOdbrojavanja.setText(napraviTekst(preostaloSekundi));
         }
     }
 
+    //kreiranje teksta upozorenja
     private String napraviTekst(int preostaloSekundi){
         return "Program ce se zatvoriti za " + preostaloSekundi + " sekundi.";
     }
 
+    //resetovanje tajmera i nastavak rada
     private void nastaviRad(){
         resetuj();
         upozorenjePrikazano = false;
@@ -170,10 +177,12 @@ public class MenadzerNeaktivnosti {
         }
     }
 
+    //vracanje tajmera na pocetnu duzinu
     public void resetuj(){
         poslednjaAktivnost = System.currentTimeMillis();
     }
 
+    //pauziranje tajmera neaktivnosti
     public void pauziraj(){
         pauziran = true;
 
@@ -185,11 +194,13 @@ public class MenadzerNeaktivnosti {
         upozorenjePrikazano = false;
     }
 
+    //ponovno pustanje tajmera
     public void nastavi(){
         pauziran = false;
         resetuj();
     }
 
+    //gasenje programa
     private void pokreniGasenje(){
         if(!gasenjePokrenuto.compareAndSet(false, true)){
             return;
@@ -204,6 +215,7 @@ public class MenadzerNeaktivnosti {
         });
     }
 
+    //gasenje tajmera neaktivnosti
     public void zaustavi(){
         Toolkit.getDefaultToolkit().removeAWTEventListener(osluskivanjeAktivnosti);
 

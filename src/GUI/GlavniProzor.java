@@ -7,19 +7,12 @@ import Fajlovi.JSONPisac;
 
 import Modeli.KontrolaLeta;
 
-import javax.smartcardio.Card;
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.io.IOException;
 import java.nio.file.Path;
 
-
-import Modeli.Let;
-import Simulacija.SimulacijaLeta;
-import Simulacija.SchedulerLetova;
-import java.util.List;
 
 public class GlavniProzor extends Frame {
     private final KontrolaLeta kontrola;
@@ -30,6 +23,7 @@ public class GlavniProzor extends Frame {
     private final PanelAerodromi panelAerodroma;
     private final PanelLetovi panelLetovi;
 
+    //stvaranje glavnog prozora programa
     public GlavniProzor(KontrolaLeta kontrola) throws IllegalAccessException {
         super("Konntrola leta");
 
@@ -41,14 +35,15 @@ public class GlavniProzor extends Frame {
 
         this.kontrola = kontrola;
 
-        //neaktivnosti = new MenadzerNeaktivnosti(this,60000,5);
-        neaktivnosti = new MenadzerNeaktivnosti(this, 10000, 5);
+        neaktivnosti = new MenadzerNeaktivnosti(this,60000,5);
 
+        //dimenzije glavnog prozora
         setSize(1600, 900);
         setMinimumSize(new Dimension(1000, 650));
         setLocationRelativeTo(null);
         setLayout(new BorderLayout(10, 10));
 
+        //kreiranje panela i dodavanje funkcionalnosti
         Panel navigacija = new Panel(new FlowLayout(FlowLayout.LEFT));
 
         Button buttonMapa = new Button("Mapa");
@@ -74,6 +69,7 @@ public class GlavniProzor extends Frame {
 
         add(panelKartica, BorderLayout.CENTER);
 
+        //dodavanje dugmadi za prolaz kroz program
         buttonAerodromi.addActionListener(e -> {
             panelMapa.ponistiSelekciju();
             panelAerodroma.osveziTabelu();
@@ -93,7 +89,7 @@ public class GlavniProzor extends Frame {
             rasporedKartica.show(panelKartica, "Mapa");
         });
 
-
+        //zatvaranje aplikacije
         addWindowListener(new WindowAdapter() {
             @Override
             public void windowClosing(WindowEvent e) {
@@ -109,6 +105,7 @@ public class GlavniProzor extends Frame {
 
     }
 
+    //meni bar za manipulaciju sa fajlovima
     private void napraviMeni() {
         MenuBar menuBar = new MenuBar();
 
@@ -144,6 +141,7 @@ public class GlavniProzor extends Frame {
         });
     }
 
+    //biranje csv fajla za prikaz
     private void ucitajCSV() {
         String putanja = izaberiFajl("Izaberite CSV fajl", FileDialog.LOAD);
 
@@ -164,6 +162,7 @@ public class GlavniProzor extends Frame {
         }
     }
 
+    //biranje json fajla za prikaz
     private void ucitajJSON() {
         String putanja = izaberiFajl("Izaberite JSON fajl", FileDialog.LOAD);
 
@@ -187,6 +186,7 @@ public class GlavniProzor extends Frame {
         }
     }
 
+    //biranje csv fajla za upis
     private void sacuvajCSV() {
         String putanja = izaberiFajl("Sacuvajte CSV fajl", FileDialog.SAVE);
 
@@ -203,6 +203,7 @@ public class GlavniProzor extends Frame {
         }
     }
 
+    //biranje json fajla za upis
     private void sacuvajJSON() {
         String putanja = izaberiFajl("Sacuvajte JSON fajl", FileDialog.SAVE);
 
@@ -223,7 +224,7 @@ public class GlavniProzor extends Frame {
 
     }
 
-
+    //pomocna funkcija za odabir fajla iz direktorijuma
     private String izaberiFajl(String naslov, int rezim) {
         FileDialog izbor = new FileDialog(this, naslov, rezim);
 
@@ -240,6 +241,7 @@ public class GlavniProzor extends Frame {
 
     }
 
+    //dodavanje ekstenzije (.csv,.json)
     private String dodajEkstenziju(String putanja, String ekstenzija) {
         if (!putanja.toLowerCase().endsWith(ekstenzija)) {
             return putanja + ekstenzija;
@@ -248,6 +250,7 @@ public class GlavniProzor extends Frame {
         return putanja;
     }
 
+    //refresh celog menija i ostalih elemenata
     private void osveziSvePrikaze() {
         panelMapa.ponistiSelekciju();
         panelAerodroma.osveziTabelu();
@@ -260,6 +263,7 @@ public class GlavniProzor extends Frame {
         repaint();
     }
 
+    //zatvaranje aplikacije
     private void zatvoriAplikaciju(){
         panelMapa.zatvori();
         neaktivnosti.zaustavi();
@@ -268,6 +272,7 @@ public class GlavniProzor extends Frame {
         System.exit(0);
     }
 
+    //prikaz informacione poruke o statusu procesa
     private void prikaziPoruku(String naslov, String poruka) {
         Dialog dijalog = new Dialog(this, naslov, true);
 

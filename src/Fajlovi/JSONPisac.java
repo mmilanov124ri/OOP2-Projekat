@@ -18,6 +18,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JSONPisac {
+
+    //formatiranje vremena
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
     private static class AerodromDTO {
@@ -66,6 +68,7 @@ public class JSONPisac {
         }
     }
 
+    //kreira fajl i upisuje podatke u isti
     public static void sacuvaj(String path, KontrolaLeta kontrolaLeta) throws IOException {
         if(path == null || path.isEmpty()){
             throw new IllegalArgumentException(

@@ -9,6 +9,7 @@ public class SimulacijaLeta {
 
     private final int polazakMinuti;
 
+    //kreiranje simulacije leta
     public SimulacijaLeta(Let let, int polazakMinuti) {
         if(let == null){
             throw new IllegalArgumentException(
@@ -38,6 +39,7 @@ public class SimulacijaLeta {
         return polazakMinuti + let.getTrajanje();
     }
 
+    //da li je let idalje u vazduhu
     public boolean jeULetu(double trenutnoVreme){
         return trenutnoVreme >= polazakMinuti && trenutnoVreme < getKrajLetaMinuti();
     }
@@ -46,6 +48,7 @@ public class SimulacijaLeta {
         return trenutnoVreme >= getKrajLetaMinuti();
     }
 
+    //procenat predjenog puta leta
     public double getNapredak(double trenutnoVreme){
         if(trenutnoVreme <= polazakMinuti){
             return 0.0;

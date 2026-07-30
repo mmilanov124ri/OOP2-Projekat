@@ -24,6 +24,7 @@ public class PanelLetovi extends Panel {
 
     private final Panel panelTabele;
 
+    //kreiranje panela letova
     public PanelLetovi(KontrolaLeta kontrola, Runnable promene) {
         if(kontrola == null){
             throw new IllegalArgumentException(
@@ -78,6 +79,7 @@ public class PanelLetovi extends Panel {
 
     }
 
+    //refresh panela letova
     public void osveziAerodrome(){
         String prethodnoPoletanje = null;
         String prethodnoSletanje = null;
@@ -108,6 +110,7 @@ public class PanelLetovi extends Panel {
 
     }
 
+    //izbor aerodroma iz padajuce liste
     private void izaberiAkoPostoji(Choice izbor, String vrednost){
         if(vrednost == null){
             return;
@@ -121,6 +124,7 @@ public class PanelLetovi extends Panel {
         }
     }
 
+    //dodavanje pojedinacno leta
     private void dodajLet(){
         try{
             if(izborPoletanje.getItemCount() < 2){
@@ -182,6 +186,7 @@ public class PanelLetovi extends Panel {
         }
     }
 
+    //refresh tabele letova
     public void osveziTabelu(){
         panelTabele.removeAll();
 
@@ -220,6 +225,7 @@ public class PanelLetovi extends Panel {
         panelTabele.repaint();
     }
 
+    //ciscenje polja za unos parametara novog leta
     private void ocistiPolja(){
         poljeVreme.setText("");
         poljeTrajanje.setText("");
@@ -227,6 +233,7 @@ public class PanelLetovi extends Panel {
         poljeVreme.requestFocus();
     }
 
+    //prikaz poruke o statusu
     private void prikaziPoruku(String naslov, String poruka){
         Frame roditelj = pronadjiRoditeljskiFrame();
 
@@ -261,6 +268,7 @@ public class PanelLetovi extends Panel {
 
     }
 
+    //nalazi glavni prozor aplikacije
     private Frame pronadjiRoditeljskiFrame(){
         Container roditelj = getParent();
 

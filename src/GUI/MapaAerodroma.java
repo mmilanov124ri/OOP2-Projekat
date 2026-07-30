@@ -17,6 +17,8 @@ import java.util.Set;
 
 
 public class MapaAerodroma extends Canvas {
+
+    //margina mape i velicine aerodroma
     private static final int margina = 20;
     private static final int velicina = 12;
 
@@ -38,6 +40,7 @@ public class MapaAerodroma extends Canvas {
 
     private final Timer tajmerTreperenja;
 
+    //kreiranje nove mape aerodroma
     public MapaAerodroma(KontrolaLeta kontrola, MenadzerNeaktivnosti neaktivnosti) {
         if (kontrola == null) {
             throw new IllegalArgumentException(
@@ -78,7 +81,7 @@ public class MapaAerodroma extends Canvas {
         );
     }
 
-
+    //crtanje mape sa avionima i aerodromima
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -110,6 +113,7 @@ public class MapaAerodroma extends Canvas {
         nacrtajAvione(g);
     }
 
+    //crtanje okvira mape kao i X i Y osi
     private void nacrtajOkvirMape(Graphics g, int pocetakX, int pocetakY, int sirinaMape, int visinaMape) {
         g.setColor(Color.LIGHT_GRAY);
 
@@ -125,6 +129,7 @@ public class MapaAerodroma extends Canvas {
         g.drawLine(pocetakX,ekranY0,pocetakX + sirinaMape,ekranY0);
     }
 
+    //pojedinacno crtanje aerodroma na mapi
     private void nacrtajAerodrom(Graphics g,Aerodrom aerodrom, int pocetakX, int pocetakY, int sirinaMape, int visinaMape) {
         int ekranX = pretvoriX(aerodrom.getX(), pocetakX, sirinaMape);
         int ekranY = pretvoriY(aerodrom.getY(), pocetakY, visinaMape);
@@ -145,22 +150,25 @@ public class MapaAerodroma extends Canvas {
         g.drawString(aerodrom.getKod(), ekranX + 7, ekranY - 7);
     }
 
+    //konverzija realne koordinate X u koordinate na mapi
     private int pretvoriX(int x,int pocetakX, int sirinaMape) {
         double odnos = (x+180.0) / 360.0;
         return pocetakX + (int) Math.round(odnos * sirinaMape);
     }
 
-
+    //konverzija realne koordinate Y u koordinate na mapi
     private int pretvoriY(int y, int pocetakY, int visinaMape) {
         double odnos = (90.0 - y) / 180.0;
 
         return pocetakY + (int) Math.round(odnos * visinaMape);
     }
 
+    //refresh mape
     public void osveziMapu(){
         repaint();
     }
 
+    //obrada klika na najblizi aerodrom i promena stanja selekcije
     private void obradiKlik(int misX, int misY){
         Aerodrom kliknutAerodrom = pronadjiAerodromNaPoziciji(misX, misY);
 
@@ -186,6 +194,7 @@ public class MapaAerodroma extends Canvas {
 
     }
 
+    //pomocna funkcija trazenja najblizeg aerodroma od kursora misa
     private Aerodrom pronadjiAerodromNaPoziciji(int misX, int misY){
         Aerodrom najblizi = null;
         double najmanjeRastojanje = Double.MAX_VALUE;
@@ -212,6 +221,7 @@ public class MapaAerodroma extends Canvas {
         return najblizi;
     }
 
+    //resetovanje selektovanog aerodroma
     public void ponistiSelekciju() {
 
         selektovaniAerodrom = null;
@@ -223,10 +233,12 @@ public class MapaAerodroma extends Canvas {
         repaint();
     }
 
+    //da li je aerodrom vidljiv u checkbox-u
     public boolean jeAerodromVidljiv(String kod){
         return !skriveniAerodromi.contains(kod);
     }
 
+    //cekiranje aerodroma u checkbox-u i ponovno crtanje na mapi
     public void postaviVidljivostAerodroma(String kod, boolean vidljiv){
         if(kod == null){
             return;
@@ -247,11 +259,13 @@ public class MapaAerodroma extends Canvas {
 
     }
 
+    //prikaz svih aerodroma na mapi
     public void prikaziSveAerodrome(){
         skriveniAerodromi.clear();
         repaint();
     }
 
+    //brisanje svih aerodroma sa mape
     public void sakrijSveAerodrome(){
         for(Aerodrom aerodrom : kontrola.getAerodromi()){
             skriveniAerodromi.add(aerodrom.getKod());
@@ -261,6 +275,7 @@ public class MapaAerodroma extends Canvas {
         repaint();
     }
 
+    //da li je validan klik misa na aerodrom (vidljiv aerodrom, unutar granica klika)
     private boolean klikJeNaAerodromu(Aerodrom aerodrom, int misX, int misY){
         if(aerodrom == null || !jeAerodromVidljiv(aerodrom.getKod())){
             return false;
@@ -275,20 +290,24 @@ public class MapaAerodroma extends Canvas {
 
     }
 
+    //dodavanje simulatora mapi
     public void postaviSimulator(SimulatorLetova simulator){
         this.simulator = simulator;
         repaint();
     }
 
+    //zaustavljanje treperenja aerodroma
     public void zatvori(){
         tajmerTreperenja.cancel();
     }
 
+    //crtanje pojedinacnih aviona na mapi
     private void nacrtajAvione(Graphics g){
         if(simulator == null){
             return;
         }
 
+        //trenutno vreme simulacije
         double trenutnoVreme = simulator.getTrenutnoVremeUMinutima();
 
         for(SimulacijaLeta simulacija : simulator.getAktivniLetovi()){
@@ -297,6 +316,7 @@ public class MapaAerodroma extends Canvas {
             Aerodrom polazni = let.getPoletanje();
             Aerodrom odredisni = let.getSletanje();
 
+            //proteklo vreme
             double predjeno = simulacija.getNapredak(trenutnoVreme);
 
             int pocetniX = pretvoriX(polazni.getX(),trenutniPocetakX,trenutnaSirinaMape);
@@ -305,6 +325,7 @@ public class MapaAerodroma extends Canvas {
             int krajnjiX = pretvoriX(odredisni.getX(),trenutniPocetakX,trenutnaSirinaMape);
             int krajnjiY = pretvoriY(odredisni.getY(),trenutniPocetakY,trenutnaVisinaMape);
 
+            //pozicija aviona u trenutku na mapi
             int trenutniX = (int) Math.round(pocetniX + predjeno * (krajnjiX - pocetniX));
             int trenutniY = (int) Math.round(pocetniY + predjeno * (krajnjiY - pocetniY));
 
@@ -313,6 +334,7 @@ public class MapaAerodroma extends Canvas {
 
             g.setColor(Color.BLUE);
 
+            //crtanje kruga na XY poziciji
             g.fillOval(trenutniX - velicinaAviona/2,trenutniY-velicinaAviona/2,velicinaAviona,velicinaAviona);
 
         }

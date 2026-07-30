@@ -46,6 +46,7 @@ public class JSONCitac {
         List<LetDTO> letovi;
     }
 
+    //Ucitava putanju do fajla za datu kontrolu leta
     public static void ucitaj(
             String path,
             KontrolaLeta kontrola
@@ -132,6 +133,7 @@ public class JSONCitac {
         }
     }
 
+    //kreira konkretan aerodrom iz ucitane linije
     private static void ucitajAerodrome(
             List<AerodromDTO> aerodromi,
             KontrolaLeta kontrola
@@ -177,6 +179,7 @@ public class JSONCitac {
         }
     }
 
+    //kreira konkretan let iz ucitane linije
     private static void ucitajLetove(
             List<LetDTO> letovi,
             KontrolaLeta kontrola

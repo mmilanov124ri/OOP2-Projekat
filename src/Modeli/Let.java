@@ -8,6 +8,7 @@ public class Let {
     private LocalTime vremePoletanja;
     private int trajanje;
 
+    //kreiranje novog leta
     public Let(Aerodrom polazniAerodrom, Aerodrom odredisniAerodrom, LocalTime vremePoletanja, int trajanje) {
         if(polazniAerodrom == null || odredisniAerodrom == null) {
             throw new IllegalArgumentException(

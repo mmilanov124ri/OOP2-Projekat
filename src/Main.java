@@ -1,36 +1,23 @@
-import Fajlovi.JSONCitac;
-import Fajlovi.JSONPisac;
-import Fajlovi.CSVPisac;
-import Fajlovi.CSVCitac;
-
-
 import GUI.GlavniProzor;
 import Modeli.KontrolaLeta;
-import Modeli.Aerodrom;
-import Modeli.Let;
-
-import javax.swing.SwingUtilities;
 import java.awt.*;
-import java.io.IOException;
-import java.time.LocalTime;
 
 public class Main {
 
     public static void main(String[] args) {
         EventQueue.invokeLater(() -> {
             try {
+                //kreiranje kontrole leta za pokrenuti program
                 KontrolaLeta kontrola = new KontrolaLeta();
 
+                //otvaranje glavnog prozora
                 new GlavniProzor(kontrola);
 
             } catch (Exception e) {
                 System.err.println(
                         "Greska pri pokretanju aplikacije: " + e.getMessage()
                 );
-
-                e.printStackTrace();
             }
         });
-
     }
 }

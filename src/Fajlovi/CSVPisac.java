@@ -14,8 +14,11 @@ import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
 public class CSVPisac {
+
+    //formatiranje vremena
     private static final DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
 
+    //kreira fajl i upisuje podatke u isti
     public static void sacuvaj(String path, KontrolaLeta kontrola) throws IOException {
         if(path == null || path.isEmpty()) {
             throw new IllegalArgumentException(

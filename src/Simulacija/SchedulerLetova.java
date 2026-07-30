@@ -6,10 +6,13 @@ import java.time.LocalTime;
 import java.util.*;
 
 public class SchedulerLetova {
+
+    //najmanji razmak izmedju poletanja dva aviona sa istog aerodroma
     private static final int termin = 10;
 
     private SchedulerLetova() {}
 
+    //kreiranje rasporeda letova simulacije
     public static List<SimulacijaLeta> napraviRaspored(List<Let> letovi) {
         if (letovi == null){
             throw new IllegalArgumentException(
@@ -35,8 +38,8 @@ public class SchedulerLetova {
             sortiraniLetovi.add(new IndeksiraniLet(let, i));
         }
 
+        //sortiranje letova po kriterijumu : 1. Vreme poletanja, 2. ID leta (ID se dodeljuje preko redosleda u listi)
         sortiraniLetovi.sort(Comparator.comparingInt(SchedulerLetova::planiraniMinut).thenComparingInt(IndeksiraniLet::getId));
-
 
         Map<String, Integer> sledeciSlobodanTermin = new HashMap<>();
 
@@ -59,16 +62,19 @@ public class SchedulerLetova {
 
         }
 
+        //sortiranje letova po vremenu poletanja
         rezultat.sort(Comparator.comparingInt(SimulacijaLeta::getPolazakMinuti));
 
         return rezultat;
 
     }
 
+    //vreme poletanja datog leta
     private static int planiraniMinut(IndeksiraniLet indeksiraniLet){
         return uMinute(indeksiraniLet.getLet().getVreme());
     }
 
+    //konverzija vremena u minute
     private static int uMinute(LocalTime vreme){
         if(vreme == null){
             throw new IllegalArgumentException(
@@ -79,6 +85,7 @@ public class SchedulerLetova {
         return vreme.getHour() * 60 + vreme.getMinute();
     }
 
+    //pomocna klasa dodele ID letovima
     private static class IndeksiraniLet {
         private final Let let;
         private final int id;
