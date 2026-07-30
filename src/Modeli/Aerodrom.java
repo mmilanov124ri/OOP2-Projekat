@@ -12,7 +12,7 @@ public class Aerodrom {
             throw new IllegalArgumentException("Kod aerodroma nije validan");
         }
 
-        if(ime.isBlank()) {
+        if(ime == null || ime.isBlank()) {
             throw new IllegalArgumentException("Ime aerodroma je prazno");
         }
 
@@ -39,6 +39,10 @@ public class Aerodrom {
     }
 
     public void setIme(String ime) {
+        if(ime == null || ime.isBlank()) {
+            throw new IllegalArgumentException("Ime aerodroma je prazno");
+        }
+
         this.ime = ime;
     }
 

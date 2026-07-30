@@ -100,18 +100,6 @@ public class JSONCitac {
             );
         }
 
-        if (podaci.aerodromi.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "JSON fajl ne sadrzi aerodrome."
-            );
-        }
-
-        if (podaci.letovi.isEmpty()) {
-            throw new IllegalArgumentException(
-                    "JSON fajl ne sadrzi letove."
-            );
-        }
-
         KontrolaLeta temp = new KontrolaLeta();
 
         ucitajAerodrome(podaci.aerodromi, temp);

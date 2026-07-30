@@ -20,6 +20,16 @@ public class CSVCitac {
 
     //Ucitava putanju do fajla za datu kontrolu leta
     public static void ucitaj(String path, KontrolaLeta kontrolaLeta) throws IOException {
+        if(kontrolaLeta == null){
+            throw new IllegalArgumentException(
+                    "Nevalidna kontrolaLeta");
+        }
+
+        boolean sekcijaAerodromi = false;
+        boolean sekcijaLetovi = false;
+        boolean zaglavljeAerodromi = false;
+        boolean zaglavljeLetovi = false;
+
         if(path == null || path.isEmpty()) {
             throw new IllegalArgumentException(
                     "Putanja do fajla nije valdina"
@@ -45,17 +55,37 @@ public class CSVCitac {
 
                 if(linija.equals("# AIRPORTS")) {
                     model = Modeli.Aerodrom;
+                    sekcijaAerodromi = true;
                     continue;
                 }
 
                 if(linija.equals("# FLIGHTS")) {
                     model = Modeli.Let;
+                    sekcijaLetovi = true;
                     continue;
                 }
 
-                if(linija.equals("CODE,NAME,X,Y") || linija.equals("FROM,TO,DEPARTURE,DURATION")) {
+                if(linija.equals("CODE,NAME,X,Y")) {
+                    if(model != Modeli.Aerodrom){
+                        throw new IllegalArgumentException(
+                                "Zaglavlje aerodroma je u pogresnoj sekciji"
+                        );
+                    }
+
+                    zaglavljeAerodromi = true;
                     continue;
                 }
+
+                 if(linija.equals("FROM,TO,DEPARTURE,DURATION")){
+                     if (model != Modeli.Let) {
+                         throw new IllegalArgumentException(
+                                 "Zaglavlje letova je u pogresnoj sekciji"
+                         );
+                     }
+
+                     zaglavljeLetovi = true;
+                     continue;
+                 }
 
                 try{
                   if(model == Modeli.Aerodrom) {
@@ -77,6 +107,12 @@ public class CSVCitac {
                 };
 
 
+            }
+
+            if(!sekcijaAerodromi || !sekcijaLetovi || !zaglavljeAerodromi || !zaglavljeLetovi) {
+                throw new IllegalArgumentException(
+                        "CSV fajl ne sadrzi ocekivana zaglavlja i sekcije"
+                );
             }
 
             kontrolaLeta.obrisiSvePodatke();

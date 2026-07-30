@@ -80,6 +80,12 @@ public class Let {
     }
 
     public void setTrajanje(int trajanje) {
+        if(trajanje <= 0){
+            throw new IllegalArgumentException(
+                    "Nevalidna vrednost trajanja leta"
+            );
+        }
+
         this.trajanje = trajanje;
     }
 }

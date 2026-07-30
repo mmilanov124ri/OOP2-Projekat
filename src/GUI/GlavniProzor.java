@@ -25,7 +25,7 @@ public class GlavniProzor extends Frame {
 
     //stvaranje glavnog prozora programa
     public GlavniProzor(KontrolaLeta kontrola) throws IllegalAccessException {
-        super("Konntrola leta");
+        super("Kontrola leta");
 
         if (kontrola == null) {
             throw new IllegalAccessException(
@@ -193,6 +193,8 @@ public class GlavniProzor extends Frame {
         if (putanja == null) {
             return;
         }
+
+        putanja = dodajEkstenziju(putanja, ".csv");
 
         try {
             CSVPisac.sacuvaj(putanja, kontrola);

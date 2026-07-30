@@ -163,7 +163,7 @@ public class PanelAerodromi extends Panel{
         panelDugmeta.add(buttonOk);
 
         dijalog.add(tekst, BorderLayout.CENTER);
-        dijalog.add(buttonOk, BorderLayout.SOUTH);
+        dijalog.add(panelDugmeta, BorderLayout.SOUTH);
 
         buttonOk.addActionListener(e->dijalog.dispose());
 
